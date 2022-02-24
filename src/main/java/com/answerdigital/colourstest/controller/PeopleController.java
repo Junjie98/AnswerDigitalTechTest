@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,6 @@ public class PeopleController {
         // of people from the PeopleRepository. If there are zero
         // people returned from PeopleRepository then an empty
         // JSON array should be returned.
-        //throw new NotImplementedException();
         return new ResponseEntity<List<Person>>(peopleRespository.findAll(), HttpStatus.OK);
     }
 
@@ -48,17 +48,6 @@ public class PeopleController {
         // If null is returned from the PeopleRepository with
         // the supplied id then a NotFound should be returned.
 
-        // throw new NotImplementedException();
-        // Person personSearched;
-        // List<Person>personAll = peopleRespository.findAll();
-        // for(int i = 0; i<personAll.size(); i++){
-        //     personSearched = personAll.get(i);
-        //     if(personSearched.getId() == id){
-        //         return new ResponseEntity<Person>(personSearched,HttpStatus.OK);
-        //     }
-        // }
-        // return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
-
         Optional<Person> personSearched = peopleRespository.findById(id);
         
         if(personSearched.isPresent()){
@@ -66,12 +55,6 @@ public class PeopleController {
         }else{
             return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
         }
-
-        // if(personSearched.get()!=null){
-        // return new ResponseEntity<Person>(personSearched.get(),HttpStatus.OK);
-        // }else{
-        //     return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
-        // }
     }
 
     @PutMapping("/{id}")
@@ -84,8 +67,6 @@ public class PeopleController {
         // updated, the person should be returned from the endpoint.
         // If null is returned from the PeopleRepository then a
         // NotFound should be returned.
-        //throw new NotImplementedException();
-
         Optional<Person> personSearched = peopleRespository.findById(id);
         
         if(personSearched.isPresent()){
@@ -97,8 +78,10 @@ public class PeopleController {
             return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
         }
     }
-
-    public Person createPerson(Person newPerson){
+    
+    //Optional
+    @PostMapping
+    public Person createPerson(@RequestBody Person newPerson){
         return peopleRespository.save(newPerson);
     }
 
